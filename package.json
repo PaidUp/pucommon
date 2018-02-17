@@ -1,0 +1,60 @@
+{
+  "name": "pu-common",
+  "version": "0.0.1",
+  "description": "Produce universal library with webpack and es6",
+  "main": "lib/library.js",
+  "scripts": {
+    "build": "webpack --env dev && webpack --env build && npm run test",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "test": "mocha --require babel-core/register --colors ./test/*.spec.js",
+    "test:watch": "mocha --require babel-core/register --colors -w ./test/*.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krasimir/webpack-library-starter.git"
+  },
+  "keywords": [
+    "webpack",
+    "es6",
+    "starter",
+    "library",
+    "universal",
+    "umd",
+    "commonjs"
+  ],
+  "author": "Krasimir Tsonev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krasimir/webpack-library-starter/issues"
+  },
+  "homepage": "https://github.com/krasimir/webpack-library-starter",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
+    "eslint": "^4.18.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^4.0.1",
+    "nodemon-webpack-plugin": "^0.1.6",
+    "webpack": "^3.10.0",
+    "webpack-node-externals": "^1.6.0",
+    "yargs": "^10.0.3"
+  },
+  "dependencies": {
+    "@google-cloud/logging": "^1.1.4",
+    "blind": "^1.0.0",
+    "jsonwebtoken": "^8.1.1",
+    "mathjs": "^3.20.2",
+    "pmx": "^1.5.6",
+    "redis": "^2.8.0"
+  }
+}
