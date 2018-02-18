@@ -15,8 +15,8 @@ let wpc = {
     path: path.resolve(__dirname, 'lib'),
     publicPath: '/lib/',
     filename: 'library.js',
-    library: libraryName,
-    libraryTarget: 'this',
+    library: 'puCommon',
+    libraryTarget: 'var',
     umdNamedDefine: true
   },
 
