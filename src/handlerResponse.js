@@ -1,15 +1,11 @@
 import Logger from './logger'
 
 export default class HandlerResponse {
-  constructor (response) {
-    this.response = response
-  }
-
-  send (msg) {
+  static send (response, msg) {
     return this.response.status(200).json(msg)
   }
 
-  error (msg, code) {
+  static error (response, msg, code) {
     Logger.error({code: code, resason: msg})
     return this.response.status(code || 500).json(msg)
   }
