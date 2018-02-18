@@ -9,10 +9,10 @@ let wpc = {
   target: 'node',
   externals: [nodeExternals()],
   entry: './src/index.js',
-  devtool: '#eval',
+  devtool: 'source-map',
 
   output: {
-    path: path.resolve(__dirname, './lib'),
+    path: path.resolve(__dirname, 'lib'),
     publicPath: '/lib/',
     filename: 'library.js',
     library: libraryName,
@@ -26,7 +26,7 @@ let wpc = {
         test: /\.(js)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
-        include: [path.resolve(__dirname, './server')]
+        include: [path.resolve(__dirname, './src')]
       },
       {
         test: /\.js$/,
@@ -37,8 +37,10 @@ let wpc = {
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './server')
-    }
+      '@': path.resolve(__dirname, './src')
+    },
+    modules: [path.resolve('./node_modules'), path.resolve('./src')],
+    extensions: ['.json', '.js']
   },
   plugins: [
     new NodemonPlugin({
