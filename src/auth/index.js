@@ -68,4 +68,20 @@ export default class Auth {
       })
     })
   }
+
+  static token (user, rembemberMe) {
+    let expireTime = (60 * 60)
+    if (rembemberMe) {
+      expireTime = expireTime * 60
+    }
+    let token = jwt.sign({ user }, secret, {
+      expiresIn: expireTime
+    })
+    redis.set(user.email.toLowerCase(), token, expireTime)
+    return token
+  }
+
+  static remove (email) {
+    return redis.del()
+  }
 }
