@@ -3,7 +3,7 @@ var nodeExternals = require('webpack-node-externals')
 // const NodemonPlugin = require('nodemon-webpack-plugin')
 const pkg = require('./package.json')
 
-let libraryName = pkg.name
+// let libraryName = pkg.name
 
 let wpc = {
   target: 'node',
@@ -15,8 +15,8 @@ let wpc = {
     path: path.resolve(__dirname, 'lib'),
     publicPath: '/lib/',
     filename: 'library.js',
-    library: 'puCommon',
-    libraryTarget: 'var',
+    // library: libraryName,
+    libraryTarget: 'this',
     umdNamedDefine: true
   },
 
