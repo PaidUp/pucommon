@@ -3,7 +3,7 @@ import Blind from 'blind'
 let encryptKey
 
 export default class Ncryp {
-  set key (key) {
+  static set key (key) {
     encryptKey = key
   }
 
