@@ -2,7 +2,7 @@ import Blind from 'blind'
 
 let config
 
-export default class {
+export default class Ncryp {
   set config (conf) {
     config = conf
   }
