@@ -1,5 +1,5 @@
 import redis from 'redis'
-import Logger from './logger'
+import Logger from '../logger'
 
 export default class Redis {
   constructor (port, host) {
