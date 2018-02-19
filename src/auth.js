@@ -24,43 +24,45 @@ function serverTokenAuthenticated (req) {
 
 let secret
 
-export function setCredential (credential) {
-  secret = credential
-}
+export default class Auth {
+  static setCredential (credential) {
+    secret = credential
+  }
 
-export function revoke (req, res, next) {
-  if (!secret) {
-    throw new Error('first must set cretendials, use fn setCredential')
-  }
-  let token = serverTokenAuthenticated(req)
-  if (!token) {
-    return res.sendStatus(401)
-  }
-  const decoded = jwt.decode(token)
-  if (decoded) {
-    Redis.del(decoded.user.email)
-  }
-  next()
-}
-
-export function validate (req, res, next) {
-  if (!secret) {
-    throw new Error('first must set cretendials, use fn setCredential')
-  }
-  let token = serverTokenAuthenticated(req)
-  if (!token) {
-    return res.sendStatus(401)
-  }
-  jwt.verify(token, secret, (error, decoded) => {
-    if (error) {
-      return res.status(500).json({error, message: 'invalid token'})
+  static revoke (req, res, next) {
+    if (!secret) {
+      throw new Error('first must set cretendials, use fn setCredential')
     }
-    Redis.get(decoded.user.email).then(value => {
-      if (token !== value) return res.sendStatus(401)
-      req.user = decoded.user
-      next()
-    }).catch(reason => {
-      res.sendStatus(500).json(reason)
+    let token = serverTokenAuthenticated(req)
+    if (!token) {
+      return res.sendStatus(401)
+    }
+    const decoded = jwt.decode(token)
+    if (decoded) {
+      Redis.del(decoded.user.email)
+    }
+    next()
+  }
+
+  static validate (req, res, next) {
+    if (!secret) {
+      throw new Error('first must set cretendials, use fn setCredential')
+    }
+    let token = serverTokenAuthenticated(req)
+    if (!token) {
+      return res.sendStatus(401)
+    }
+    jwt.verify(token, secret, (error, decoded) => {
+      if (error) {
+        return res.status(500).json({error, message: 'invalid token'})
+      }
+      Redis.get(decoded.user.email).then(value => {
+        if (token !== value) return res.sendStatus(401)
+        req.user = decoded.user
+        next()
+      }).catch(reason => {
+        res.sendStatus(500).json(reason)
+      })
     })
-  })
+  }
 }
