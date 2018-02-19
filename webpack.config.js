@@ -1,7 +1,7 @@
 var path = require('path')
 var nodeExternals = require('webpack-node-externals')
 // const NodemonPlugin = require('nodemon-webpack-plugin')
-const pkg = require('./package.json')
+// const pkg = require('./package.json')
 
 // let libraryName = pkg.name
 

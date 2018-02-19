@@ -25,8 +25,9 @@ function serverTokenAuthenticated (req) {
 let secret
 
 export default class Auth {
-  static setCredential (credential) {
+  static setCredential (credential, port, host) {
     secret = credential
+    this.redis = new Redis(port, host)
   }
 
   static revoke (req, res, next) {
@@ -39,7 +40,7 @@ export default class Auth {
     }
     const decoded = jwt.decode(token)
     if (decoded) {
-      Redis.del(decoded.user.email)
+      this.redis.del(decoded.user.email)
     }
     next()
   }
@@ -56,7 +57,7 @@ export default class Auth {
       if (error) {
         return res.status(500).json({error, message: 'invalid token'})
       }
-      Redis.get(decoded.user.email).then(value => {
+      this.redis.get(decoded.user.email).then(value => {
         if (token !== value) return res.sendStatus(401)
         req.user = decoded.user
         next()
