@@ -36,7 +36,7 @@ function write (type, msg, notify) {
 }
 
 export default class Logger {
-  set config (config) {
+  static setConfig (config) {
     metadata = config.metadata
     if (process.env.NODE_ENV !== 'test') {
       const logging = new Logging({
