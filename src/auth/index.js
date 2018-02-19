@@ -25,8 +25,9 @@ function serverTokenAuthenticated (req) {
 let secret
 
 export default class Auth {
-  static setCredential (credential, port, host) {
-    secret = credential
+  static setCredential (config) {
+    let { port, host } = config
+    secret = config.credential
     this.redis = new Redis(port, host)
   }
 
