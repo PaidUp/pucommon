@@ -1,11 +1,9 @@
 import redis from 'redis'
-import Logger from '../logger'
 
 export default class Redis {
   constructor (port, host) {
     this.client = redis.createClient(port, host)
     this.client.on('connect', function () {
-      Logger.info('connected to redis')
     })
   }
 
