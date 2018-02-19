@@ -1,19 +1,17 @@
 import Blind from 'blind'
 
-let config
-
 export default class Ncryp {
-  set config (conf) {
-    config = conf
+  set key (key) {
+    this.encryptKey = key
   }
 
   static encryptField (value) {
-    let encrypted = new Blind({ encryptKey: config.encryptKey }).encrypt(value)
+    let encrypted = new Blind({ encryptKey: this.encryptKey }).encrypt(value)
     return encrypted
   }
 
   static decryptField (encryptedValue) {
-    var decrypted = new Blind({ encryptKey: config.encryptKey }).decrypt(encryptedValue)
+    var decrypted = new Blind({ encryptKey: this.encryptKey }).decrypt(encryptedValue)
     return decrypted
   }
 }
