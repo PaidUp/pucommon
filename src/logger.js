@@ -37,12 +37,12 @@ function write (type, msg, notify) {
 
 export default class Logger {
   set config (config) {
-    metadata = config.logger.metadata
+    metadata = config.metadata
     if (process.env.NODE_ENV !== 'test') {
       const logging = new Logging({
-        projectId: config.logger.projectId
+        projectId: config.projectId
       })
-      log = logging.log(config.logger.logName)
+      log = logging.log(config.logName)
     }
   }
 
