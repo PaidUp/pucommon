@@ -12,7 +12,7 @@ export default class Sequence {
     lambda = new AWS.Lambda({region, apiVersion})
   }
 
-  static next (key) {
+  static next (key, qty = 1) {
     let opt = {
       FunctionName: options.functionName,
       InvocationType: 'RequestResponse',
@@ -21,7 +21,8 @@ export default class Sequence {
         key,
         db: options.db,
         host: options.host,
-        port: options.port
+        port: options.port,
+        qty
       })
     }
     return new Promise((resolve, reject) => {
