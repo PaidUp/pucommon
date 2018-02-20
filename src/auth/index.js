@@ -1,5 +1,5 @@
 // import config from '@/config/environment'
-import Redis from './redis'
+import Redis from '../redis'
 import jwt from 'jsonwebtoken'
 
 /**

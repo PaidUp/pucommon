@@ -4,6 +4,7 @@ import HandlerResponse from './handlerResponse'
 import Auth from './auth'
 import Calculations from './calculations'
 import Stripe from './stripe'
+import Sequence from './sequence'
 
 export {
   Logger,
@@ -11,5 +12,6 @@ export {
   HandlerResponse,
   Auth,
   Calculations,
-  Stripe
+  Stripe,
+  Sequence
 }

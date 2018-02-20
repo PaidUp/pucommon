@@ -55,6 +55,8 @@
   },
   "dependencies": {
     "@google-cloud/logging": "^1.1.4",
+    "async-lock": "^1.1.1",
+    "aws-sdk": "^2.198.0",
     "blind": "^1.0.0",
     "jsonwebtoken": "^8.1.1",
     "mathjs": "^3.20.2",
