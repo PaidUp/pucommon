@@ -1,7 +1,7 @@
 /* global describe, it, before */
 
 import chai from 'chai'
-import { Sequence } from '../lib/library.js'
+import { auth } from '../lib/library.js'
 
 chai.expect()
 
@@ -11,21 +11,9 @@ chai.expect()
 
 describe('Given an instance of my Calculations library', () => {
   before(() => {
-    Sequence.setConfig({
-      functionName: 'sequence-dev:3',
-      db: '1',
-      host: 'develop.rd7ge9.ng.0001.use1.cache.amazonaws.com',
-      port: '6379'
-    })
-    for (let index = 0; index < 1; index++) {
-      Sequence.next('invoice', 5).then(seq => {
-        console.log('index: ' + index + 'SEQ: ', seq)
-      })
-    }
   })
   describe('when I need the name', () => {
     it.skip('should return the name', (done) => {
-      console.log('avut: ', Sequence)
     })
   })
 })

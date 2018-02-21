@@ -22,20 +22,11 @@ function serverTokenAuthenticated (req) {
   return token
 }
 
-let auth
-
 class Auth {
   set config ({ port, host, credential, apiKey }) {
     this.secret = credential
     this.redis = new Redis(port, host)
     this.apiKey = apiKey
-  }
-
-  static get instance () {
-    if (!auth) {
-      auth = new Auth()
-    }
-    return auth
   }
 
   revoke (req, res, next) {
@@ -101,4 +92,6 @@ class Auth {
   }
 }
 
-export default auth = Auth.instance
+let auth = new Auth()
+
+export default auth
