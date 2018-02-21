@@ -5,9 +5,7 @@ let lambda
 let options
 
 export default class Sequence {
-  static setConfig (params, region = 'us-east-1', apiVersion = '2015-03-31', profile = 'default') {
-    const credentials = new AWS.SharedIniFileCredentials({ profile })
-    AWS.config.credentials = credentials
+  static setConfig (params, region = 'us-east-1', apiVersion = '2015-03-31') {
     options = params
     lambda = new AWS.Lambda({region, apiVersion})
   }
