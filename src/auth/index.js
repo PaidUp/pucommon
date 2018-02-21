@@ -101,4 +101,4 @@ class Auth {
   }
 }
 
-export default Auth.instance
+export default auth = Auth.instance
