@@ -22,18 +22,24 @@ function serverTokenAuthenticated (req) {
   return token
 }
 
-let secret
-let redis
+let auth
 
-export default class Auth {
-  static setCredential (config) {
-    let { port, host } = config
-    secret = config.credential
-    redis = new Redis(port, host)
+class Auth {
+  set config ({ port, host, credential, apiKey }) {
+    this.secret = credential
+    this.redis = new Redis(port, host)
+    this.apiKey = apiKey
   }
 
-  static revoke (req, res, next) {
-    if (!secret) {
+  static get instance () {
+    if (!auth) {
+      auth = new Auth()
+    }
+    return auth
+  }
+
+  revoke (req, res, next) {
+    if (!this.secret) {
       throw new Error('first must set cretendials, use fn setCredential')
     }
     let token = serverTokenAuthenticated(req)
@@ -42,24 +48,33 @@ export default class Auth {
     }
     const decoded = jwt.decode(token)
     if (decoded) {
-      redis.del(decoded.user.email)
+      this.redis.del(decoded.user.email)
     }
     next()
   }
 
-  static validate (req, res, next) {
-    if (!secret) {
-      throw new Error('first must set cretendials, use fn setCredential')
+  validate (req, res, next) {
+    if (!this.secret) {
+      throw new Error('first must set cretendials, use fn config')
+    }
+    if (!this.apiKey) {
+      throw new Error('first must set cretendials, use fn config')
+    }
+    if (req.headers['x-api-key']) {
+      if (req.headers['x-api-key'] === this.apiKey) {
+        return next()
+      }
+      return res.sendStatus(401)
     }
     let token = serverTokenAuthenticated(req)
     if (!token) {
       return res.sendStatus(401)
     }
-    jwt.verify(token, secret, (error, decoded) => {
+    jwt.verify(token, this.secret, (error, decoded) => {
       if (error) {
         return res.status(500).json({error, message: 'invalid token'})
       }
-      redis.get(decoded.user.email).then(value => {
+      this.redis.get(decoded.user.email).then(value => {
         if (token !== value) return res.sendStatus(401)
         req.user = decoded.user
         next()
@@ -69,19 +84,21 @@ export default class Auth {
     })
   }
 
-  static token (user, rembemberMe) {
+  token (user, rembemberMe) {
     let expireTime = (60 * 60)
     if (rembemberMe) {
       expireTime = expireTime * 60
     }
-    let token = jwt.sign({ user }, secret, {
+    let token = jwt.sign({ user }, this.secret, {
       expiresIn: expireTime
     })
-    redis.set(user.email.toLowerCase(), token, expireTime)
+    this.redis.set(user.email.toLowerCase(), token, expireTime)
     return token
   }
 
-  static remove (email) {
-    return redis.del()
+  remove (email) {
+    return this.redis.del()
   }
 }
+
+export default Auth.instance
