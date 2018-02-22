@@ -22,50 +22,39 @@ function serverTokenAuthenticated (req) {
   return token
 }
 
-class Auth {
-  set config ({ port, host, credential, apiKey }) {
-    this.secret = credential
-    this.redis = new Redis(port, host)
-    this.apiKey = apiKey
-  }
+let secret
+let redis
+let apiKey
 
-  revoke (req, res, next) {
-    if (!this.secret) {
-      throw new Error('first must set cretendials, use fn setCredential')
-    }
-    let token = serverTokenAuthenticated(req)
-    if (!token) {
-      return res.sendStatus(401)
-    }
-    const decoded = jwt.decode(token)
-    if (decoded) {
-      this.redis.del(decoded.user.email)
-    }
-    next()
+class Auth {
+  set config ({ port, host, credential, key }) {
+    secret = credential
+    redis = new Redis(port, host)
+    apiKey = key
   }
 
   validate (req, res, next) {
-    if (!this.secret) {
+    if (!secret) {
       throw new Error('first must set cretendials, use fn config')
     }
-    if (!this.apiKey) {
+    if (!apiKey) {
       throw new Error('first must set cretendials, use fn config')
     }
     if (req.headers['x-api-key']) {
-      if (req.headers['x-api-key'] === this.apiKey) {
+      if (req.headers['x-api-key'] === apiKey) {
         return next()
       }
       return res.sendStatus(401)
     }
-    let token = serverTokenAuthenticated(req)
+    const token = serverTokenAuthenticated(req)
     if (!token) {
       return res.sendStatus(401)
     }
-    jwt.verify(token, this.secret, (error, decoded) => {
+    jwt.verify(token, secret, (error, decoded) => {
       if (error) {
         return res.status(500).json({error, message: 'invalid token'})
       }
-      this.redis.get(decoded.user.email).then(value => {
+      redis.get(decoded.user.email).then(value => {
         if (token !== value) return res.sendStatus(401)
         req.user = decoded.user
         next()
@@ -75,15 +64,30 @@ class Auth {
     })
   }
 
+  revoke (req, res, next) {
+    if (!secret) {
+      throw new Error('first must set cretendials, use fn setCredential')
+    }
+    let token = serverTokenAuthenticated(req)
+    if (!token) {
+      return res.sendStatus(401)
+    }
+    const decoded = jwt.decode(token)
+    if (decoded) {
+      redis.del(decoded.user.email)
+    }
+    next()
+  }
+
   token (user, rembemberMe) {
     let expireTime = (60 * 60)
     if (rembemberMe) {
       expireTime = expireTime * 60
     }
-    let token = jwt.sign({ user }, this.secret, {
+    let token = jwt.sign({ user }, secret, {
       expiresIn: expireTime
     })
-    this.redis.set(user.email.toLowerCase(), token, expireTime)
+    redis.set(user.email.toLowerCase(), token, expireTime)
     return token
   }
 
@@ -92,6 +96,6 @@ class Auth {
   }
 }
 
-let auth = new Auth()
+const auth = new Auth()
 
 export default auth
