@@ -11,7 +11,7 @@ export default class Redis {
     return new Promise((resolve, reject) => {
       this.client.set(key, value, (err, reply) => {
         if (err) {
-          reject(err)
+          return reject(err)
         }
         this.client.expire(key, expiration)
         resolve(reply)
@@ -23,7 +23,7 @@ export default class Redis {
     return new Promise((resolve, reject) => {
       this.client.get(key, (err, reply) => {
         if (err) {
-          reject(err)
+          return reject(err)
         }
         resolve(reply)
       })
@@ -34,7 +34,7 @@ export default class Redis {
     return new Promise((resolve, reject) => {
       this.client.del(key, (err, reply) => {
         if (err) {
-          reject(err)
+          return reject(err)
         }
         resolve(reply)
       })
