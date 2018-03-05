@@ -52,7 +52,7 @@ class Auth {
     }
     jwt.verify(token, secret, (error, decoded) => {
       if (error) {
-        return res.status(500).json({error, message: 'invalid token'})
+        return res.status(401).json({error, message: 'invalid token'})
       }
       redis.get(decoded.user.email).then(value => {
         if (token !== value) return res.sendStatus(401)
