@@ -4,6 +4,7 @@ import HandlerResponse from './handlerResponse'
 import auth from './auth'
 import Calculations from './calculations'
 import Sequence from './sequence'
+import S3 from './s3'
 
 export {
   Logger,
@@ -11,5 +12,6 @@ export {
   HandlerResponse,
   auth,
   Calculations,
-  Sequence
+  Sequence,
+  S3
 }
