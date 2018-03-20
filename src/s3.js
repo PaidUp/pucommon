@@ -13,7 +13,6 @@ function randomValueBase64 (len = 4) {
 
 export default class S3 {
   constructor ({ accessKeyId, secretAccessKey, region = 'us-east-1', bucket, directory, setOriginalName, isPublic } = {}) {
-    this.directory = directory ? directory + '/' : ''
     this.multer = multer({
       storage: multerS3({
         s3: new aws.S3({ accessKeyId, secretAccessKey, region }),
@@ -23,8 +22,9 @@ export default class S3 {
           cb(null, {fieldName: file.fieldname})
         },
         key: function (req, file, cb) {
+          const dir = directory ? directory + '/' : ''
           const name = setOriginalName ? file.originalname : `${randomValueBase64()}_${randomValueBase64()}_${randomValueBase64()}_${randomValueBase64()}`
-          cb(null, this.directory + name)
+          cb(null, dir + name)
         }
       })
     })
