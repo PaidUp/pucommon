@@ -29,4 +29,8 @@ export default class S3 {
       })
     })
   }
+
+  get upload () {
+    return this.multer
+  }
 }
