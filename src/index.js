@@ -5,6 +5,7 @@ import auth from './auth'
 import Calculations from './calculations'
 import Sequence from './sequence'
 import S3 from './s3'
+import combinedMiddleware from './combinedMiddleware'
 
 export {
   Logger,
@@ -13,5 +14,6 @@ export {
   auth,
   Calculations,
   Sequence,
-  S3
+  S3,
+  combinedMiddleware
 }

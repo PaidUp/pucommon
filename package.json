@@ -58,6 +58,7 @@
     "async-lock": "^1.1.1",
     "aws-sdk": "^2.198.0",
     "blind": "^1.0.0",
+    "connect": "^3.6.6",
     "jsonwebtoken": "^8.1.1",
     "mathjs": "^3.20.2",
     "multer": "^1.3.0",
