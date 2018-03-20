@@ -12,7 +12,7 @@ function randomValueBase64 (len = 4) {
 }
 
 export default class S3 {
-  constructor ({ accessKeyId, secretAccessKey, region = 'us-east-1', bucket, setOriginalName, isPublic }) {
+  constructor ({ accessKeyId, secretAccessKey, region = 'us-east-1', bucket, setOriginalName, isPublic } = {}) {
     this.multer = multer({
       storage: multerS3({
         s3: new aws.S3({ accessKeyId, secretAccessKey, region }),
