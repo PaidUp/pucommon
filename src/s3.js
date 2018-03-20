@@ -22,7 +22,7 @@ export default class S3 {
           cb(null, {fieldName: file.fieldname})
         },
         key: function (req, file, cb) {
-          const directory = req.body.directory + '/' || ''
+          const directory = req.body.directory ? req.body.directory + '/' : ''
           const name = setOriginalName ? file.originalname : `${randomValueBase64()}_${randomValueBase64()}_${randomValueBase64()}_${randomValueBase64()}`
           cb(null, directory + name)
         }
