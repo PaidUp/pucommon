@@ -7,15 +7,26 @@ export default class Email {
     sgMail.setApiKey(apiKey)
   }
 
-  sendTemplate (to, templateId, substitutions) {
+  sendTemplate (toName, toEmail, templateId, substitutions) {
     const msg = {
-      to,
+      personalizations: [
+        {
+          to: [
+            {
+              email: toEmail,
+              name: toName
+            }
+          ],
+          // 'subject': subject,
+          substitutions
+        }
+      ],
       from: {
         email: this.fromEmail,
         name: this.name
       },
-      template_id: templateId,
-      substitutions
+      template_id: templateId
+
     }
     sgMail.send(msg)
   }
