@@ -5,6 +5,7 @@ export default class Email {
     this.fromName = fromName
     this.fromEmail = fromEmail
     sgMail.setApiKey(apiKey)
+    sgMail.setSubstitutionWrappers('{{', '}}')
   }
 
   sendTemplate (toName, toEmail, templateId, substitutions) {
