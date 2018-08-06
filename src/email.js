@@ -8,20 +8,10 @@ export default class Email {
     sgMail.setSubstitutionWrappers('{{', '}}')
   }
 
-  sendTemplate (toName, toEmail, templateId, substitutions) {
+  sendTemplate (to, templateId, substitutions) {
     const msg = {
-      personalizations: [
-        {
-          to: [
-            {
-              email: toEmail,
-              name: toName
-            }
-          ],
-          // 'subject': subject,
-          substitutions
-        }
-      ],
+      to,
+      substitutions,
       from: {
         email: this.fromEmail,
         name: this.name
