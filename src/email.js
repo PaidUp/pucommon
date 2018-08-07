@@ -11,12 +11,12 @@ export default class Email {
   sendTemplate (to, templateId, substitutions) {
     const msg = {
       to,
-      substitutions,
       from: {
-        email: this.fromEmail,
-        name: this.fromName
+        name: this.fromName,
+        email: this.fromEmail
       },
-      templateId
+      templateId,
+      substitutions
     }
     sgMail.send(msg)
   }

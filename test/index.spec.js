@@ -1,7 +1,7 @@
 /* global describe, it, before */
 
 import chai from 'chai'
-import { auth } from '../lib/library.js'
+import { Email } from '../lib/library.js'
 
 chai.expect()
 
@@ -9,11 +9,20 @@ chai.expect()
 
 // let lib
 
-describe('Given an instance of my Calculations library', () => {
+describe('Email', () => {
   before(() => {
   })
-  describe('when I need the name', () => {
+  describe('Send template', () => {
     it.skip('should return the name', (done) => {
+      const email = new Email('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', 'Felipe', 'felipe@getpaidup.com')
+      email.sendTemplate('riclara@gmail.com', 'e6be06bd-d125-4dd6-914d-2085f2382441', {
+        orgName: 'Org Name',
+        userFirstName: 'Ricardo',
+        beneficiaryFirstName: 'Juan',
+        beneficiaryLastName: 'Lara',
+        productName: 'Product Name'
+      })
+      done()
     })
   })
 })
