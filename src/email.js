@@ -1,7 +1,7 @@
 import sgMail from '@sendgrid/mail'
 
 export default class Email {
-  constructor (apiKey, fromName, fromEmail) {
+  constructor ({apiKey, fromName, fromEmail}) {
     this.fromName = fromName
     this.fromEmail = fromEmail
     sgMail.setApiKey(apiKey)

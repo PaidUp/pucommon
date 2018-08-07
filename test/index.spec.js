@@ -14,7 +14,11 @@ describe('Email', () => {
   })
   describe('Send template', () => {
     it.skip('should return the name', (done) => {
-      const email = new Email('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', 'Felipe', 'felipe@getpaidup.com')
+      const email = new Email({
+        apiKey: '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',
+        fromName: 'Felipe',
+        fromEmail: 'felipe@getpaidup.com'
+      })
       email.sendTemplate('riclara@gmail.com', 'e6be06bd-d125-4dd6-914d-2085f2382441', {
         orgName: 'Org Name',
         userFirstName: 'Ricardo',
