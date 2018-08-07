@@ -1,8 +1,9 @@
 import sgMail from '@sendgrid/mail'
 
 export default class Email {
-  constructor (apiKey, from) {
-    this.from = from
+  constructor (apiKey, fromName, fromEmail) {
+    this.fromName = fromName
+    this.fromEmail = fromEmail
     sgMail.setApiKey(apiKey)
     sgMail.setSubstitutionWrappers('{{', '}}')
   }
@@ -11,9 +12,11 @@ export default class Email {
     const msg = {
       to,
       substitutions,
-      from: this.from,
+      from: {
+        email: this.fromEmail,
+        name: this.fromName
+      },
       templateId
-
     }
     sgMail.send(msg)
   }
