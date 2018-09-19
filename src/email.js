@@ -20,4 +20,18 @@ export default class Email {
     }
     sgMail.send(msg)
   }
+
+  sendEmail (to, subject, html, attachments) {
+    const msg = {
+      to,
+      from: {
+        name: this.fromName,
+        email: this.fromEmail
+      },
+      subject,
+      html
+    }
+    if (attachments) msg.attachments = attachments
+    return sgMail.send(msg)
+  }
 }
