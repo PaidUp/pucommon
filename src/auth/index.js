@@ -64,6 +64,26 @@ class Auth {
     })
   }
 
+  populateUser (req, res, next) {
+    const token = serverTokenAuthenticated(req)
+    if (!token) {
+      req.user = {}
+      return next()
+    }
+    jwt.verify(token, secret, (error, decoded) => {
+      if (error) {
+        return res.status(401).json({error, message: 'invalid token'})
+      }
+      redis.get(decoded.user.email).then(value => {
+        if (token !== value) return res.sendStatus(401)
+        req.user = decoded.user
+        next()
+      }).catch(reason => {
+        res.sendStatus(500).json(reason)
+      })
+    })
+  }
+
   revoke (req, res, next) {
     if (!secret) {
       throw new Error('first must set cretendials, use fn setCredential')
