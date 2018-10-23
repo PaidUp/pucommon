@@ -65,9 +65,16 @@ class Auth {
   }
 
   populateUser (req, res, next) {
+    if (req.headers['x-api-key']) {
+      if (req.headers['x-api-key'] === apiKey) {
+        req.user = {roles: 'api'}
+        return next()
+      }
+      return res.sendStatus(401)
+    }
     const token = serverTokenAuthenticated(req)
     if (!token) {
-      req.user = {}
+      req.user = {roles: ''}
       return next()
     }
     jwt.verify(token, secret, (error, decoded) => {
