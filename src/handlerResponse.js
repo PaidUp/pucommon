@@ -9,7 +9,8 @@ export default class HandlerResponse {
     if (process.env.NODE_ENV === 'local') {
       console.log('ERROR: ' + JSON.stringify(msg))
     }
-    Logger.error({code: code, resason: msg})
-    return response.status(code || 500).json(msg)
+    const err = {code: code, message: msg}
+    Logger.error(err)
+    return response.status(code || 500).json(err)
   }
 }
