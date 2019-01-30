@@ -3,6 +3,7 @@ import bugsnagExpress from '@bugsnag/plugin-express'
 
 // let bugsnagClient, middleware, intercept, contextualize
 const errorMsg = 'Class not initialized, execute init ({apiKey, projectRoot, notifyReleaseStages})'
+let instance
 
 class HandlerBug {
   init ({apiKey, projectRoot, notifyReleaseStages}) {
@@ -40,5 +41,7 @@ class HandlerBug {
     this.bugsnagClient.notify(error)
   }
 }
-const instance = new HandlerBug()
-export default instance
+export const handlerBug = (function () {
+  if (!instance) instance = new HandlerBug()
+  return instance
+})()
