@@ -1,39 +1,42 @@
 import bugsnag from '@bugsnag/js'
 import bugsnagExpress from '@bugsnag/plugin-express'
 
-let bugsnagClient, middleware
 const errorMsg = 'Class not initialized, execute init ({apiKey, projectRoot, notifyReleaseStages})'
 
-export default {
-  init ({ apiKey, projectRoot, notifyReleaseStages }) {
-    bugsnagClient = bugsnag({ apiKey, projectRoot, notifyReleaseStages })
-    bugsnagClient.use(bugsnagExpress)
-    middleware = bugsnagClient.getPlugin('express')
-  },
-
-  requestHandler () {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    return middleware.requestHandler
-  },
-
-  errorHandler () {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    return middleware.errorHandler
-  },
-
-  intercept () {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    return bugsnagClient.getPlugin('intercept')
-  },
-
-  contextualize () {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    return bugsnagClient.getPlugin('contextualize')
-  },
-
-  notify (error) {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    bugsnagClient.notify(error)
+class HandlerBug {
+  init ({apiKey, projectRoot, notifyReleaseStages}) {
+    this.bugsnagClient = bugsnag({
+      apiKey, projectRoot, notifyReleaseStages
+    })
+    this.bugsnagClient.use(bugsnagExpress)
+    this.middleware = this.bugsnagClient.getPlugin('express')
+    this.intercept = this.bugsnagClient.getPlugin('intercept')
+    this.contextualize = this.bugsnagClient.getPlugin('contextualize')
   }
 
+  get requestHandler () {
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    return this.middleware.requestHandler
+  }
+
+  get errorHandler () {
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    return this.middleware.errorHandler
+  }
+
+  get intercept () {
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    return this.intercept
+  }
+
+  get contextualize () {
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    return this.contextualize
+  }
+
+  notify (error) {
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    this.bugsnagClient.notify(error)
+  }
 }
+export const handlerBug = new HandlerBug()
