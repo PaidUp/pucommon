@@ -8,7 +8,7 @@ import S3 from './s3'
 import combinedMiddleware from './combinedMiddleware'
 import Math from './math'
 import Email from './email'
-import HandlerBug from './handlerBug'
+import handlerBug from './handlerBug'
 
 export {
   Logger,
@@ -21,5 +21,5 @@ export {
   combinedMiddleware,
   Math,
   Email,
-  HandlerBug
+  handlerBug
 }
