@@ -10,8 +10,6 @@ class HandlerBug {
     })
     this.bugsnagClient.use(bugsnagExpress)
     this.middleware = this.bugsnagClient.getPlugin('express')
-    this.intercept = this.bugsnagClient.getPlugin('intercept')
-    this.contextualize = this.bugsnagClient.getPlugin('contextualize')
   }
 
   get requestHandler () {
@@ -26,12 +24,12 @@ class HandlerBug {
 
   get intercept () {
     if (!this.bugsnagClient) throw new Error(errorMsg)
-    return this.intercept
+    return this.bugsnagClient.getPlugin('intercept')
   }
 
   get contextualize () {
     if (!this.bugsnagClient) throw new Error(errorMsg)
-    return this.contextualize
+    return this.bugsnagClient.getPlugin('contextualize')
   }
 
   notify (error) {
