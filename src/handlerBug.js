@@ -1,44 +1,44 @@
 import bugsnag from '@bugsnag/js'
 import bugsnagExpress from '@bugsnag/plugin-express'
 
-let bugsnagClient, middleware, intercept, contextualize
+// let bugsnagClient, middleware, intercept, contextualize
 const errorMsg = 'Class not initialized, execute init ({apiKey, projectRoot, notifyReleaseStages})'
 
 class HandlerBug {
   init ({apiKey, projectRoot, notifyReleaseStages}) {
-    bugsnagClient = bugsnag({
+    this.bugsnagClient = bugsnag({
       apiKey, projectRoot, notifyReleaseStages
     })
-    bugsnagClient.use(bugsnagExpress)
-    middleware = bugsnagClient.getPlugin('express')
-    intercept = bugsnagClient.getPlugin('intercept')
-    contextualize = bugsnagClient.getPlugin('contextualize')
+    this.bugsnagClient.use(bugsnagExpress)
+    this.middleware = this.bugsnagClient.getPlugin('express')
+    this.intercept = this.bugsnagClient.getPlugin('intercept')
+    this.contextualize = this.bugsnagClient.getPlugin('contextualize')
   }
 
   get requestHandler () {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    return middleware.requestHandler
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    return this.middleware.requestHandler
   }
 
   get errorHandler () {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    return middleware.errorHandler
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    return this.middleware.errorHandler
   }
 
   get intercept () {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    return intercept
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    return this.intercept
   }
 
   get contextualize () {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    return contextualize
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    return this.contextualize
   }
 
   notify (error) {
-    if (!bugsnagClient) throw new Error(errorMsg)
-    bugsnagClient.notify(error)
+    if (!this.bugsnagClient) throw new Error(errorMsg)
+    this.bugsnagClient.notify(error)
   }
 }
-
-export default new HandlerBug()
+const instance = new HandlerBug()
+export default instance
